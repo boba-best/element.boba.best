@@ -23,5 +23,6 @@ jobs:
               with:
                   target_branch: gh_pages
                   build_dir: webapp
+                  fqdn: element.boba.best
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
