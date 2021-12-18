@@ -14,11 +14,20 @@ jobs:
             - name: Set up Node
               uses: actions/setup-node@v2
 
+            - name: Get version
+              id: version
+              run: |
+                  echo ::set-output name=version::$(grep version package.json | sed 's|.*: \"\(.*\)\",|\1|')
+
             - run: yarn install
+              env:
+                  VERSION: ${{ steps.version.outputs.version }}
             - run: yarn build
+              env:
+                  VERSION: ${{ steps.version.outputs.version }}
             - run: cp config.json webapp/
             - run: |
-                echo $(grep version package.json | sed 's|.*: \"\(.*\)\",|\1|') > webapp/version
+                echo ${{ steps.version.outputs.version }} > webapp/version
 
             - name: Deploy
               uses: crazy-max/ghaction-github-pages@v2
